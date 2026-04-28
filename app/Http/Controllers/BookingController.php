@@ -26,10 +26,9 @@ class BookingController extends Controller
                 CreateBookingDTO::fromRequest($request)
             );
 
-            return response()->json(
-                new BookingResource($booking->load('room')),
-                201
-            );
+            return (new BookingResource($booking->load('room')))
+                ->response()
+                ->setStatusCode(201);
         } catch (RoomConflictException $e) {
             return response()->json([
                 'error'   => 'conflict',
@@ -40,8 +39,10 @@ class BookingController extends Controller
 
     public function byUser(Request $request): AnonymousResourceCollection
     {
+        $request->validate(['user_id' => ['required', 'integer', 'exists:users,id']]);
+
         $bookings = $this->bookingService->getByUser(
-            $request->user()->id
+            $request->integer('user_id')
         );
 
         return BookingResource::collection($bookings);

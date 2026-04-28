@@ -20,7 +20,7 @@ class CreateBookingDTO
     public static function fromRequest(CreateBookingRequest $request): self
     {
         return new self(
-            userId:   $request->user()->id,
+            userId:   $request->integer('user_id'),
             roomId:   $request->integer('room_id'),
             startsAt: Carbon::parse($request->string('starts_at')->value()),
             endsAt:   Carbon::parse($request->string('ends_at')->value()),
