@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $rooms = [
+            ['name' => 'One',   'capacity' => 6],
+            ['name' => 'Two',    'capacity' => 10],
+            ['name' => 'Three',   'capacity' => 4],
+            ['name' => 'Four',   'capacity' => 20],
+            ['name' => 'Five', 'capacity' => 8],
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        foreach ($rooms as $room) {
+            Room::firstOrCreate(['name' => $room['name']], $room);
+        }
     }
 }
