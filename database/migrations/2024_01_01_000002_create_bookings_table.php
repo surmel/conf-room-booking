@@ -12,16 +12,14 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
             $table->string('title')->nullable();
             $table->timestamps();
 
-            // Prevent overlapping bookings for the same room
             $table->index(['room_id', 'starts_at', 'ends_at']);
-            $table->index('user_id');
         });
     }
 

@@ -10,7 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'capacity'];
+
+    protected $casts = [
+        'capacity' => 'integer',
+    ];
 
     public function bookings(): HasMany
     {
